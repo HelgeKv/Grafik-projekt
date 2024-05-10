@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Celestial_code : MonoBehaviour
 {   
-    readonly float G = 200f;
+    readonly float G = 100f;
     GameObject[] celestials;
     // Start is called before the first frame update
     void Start()
@@ -42,11 +42,7 @@ public class Celestial_code : MonoBehaviour
         foreach(GameObject celestial in celestials){
             foreach (GameObject other_celestial in celestials){
                 if(celestial.name != "Sun"){
-                    float m2 = other_celestial.GetComponent<Rigidbody>().mass;
-                    float r = Vector3.Distance(celestial.transform.position, other_celestial.transform.position);
-                    celestial.transform.LookAt(other_celestial.transform);
-
-                    celestial.GetComponent<Rigidbody>().velocity += celestial.transform.right * Mathf.Sqrt((G * m2) / r)/3;
+                    //celestial.GetComponent<Rigidbody>().velocity = new Vector3(-130, 0, 0);
                 }
             }
         }
