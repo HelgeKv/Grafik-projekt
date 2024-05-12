@@ -11,6 +11,8 @@ public class Create_celestial : MonoBehaviour
     public float min_launchforce = 0f;
     public float max_launchforce = 1000f;
     public float charge_speed = 100f;
+    private Vector3 initial_coord; 
+ 
     private bool fired;
     private float current_launchforce;
 
@@ -35,10 +37,18 @@ public class Create_celestial : MonoBehaviour
         {
             fired = false;
             current_launchforce = min_launchforce;
+
+            Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+        
+            if(Physics.Raycast(camRay, out hit, 1000f, plane))
+            {
+                initial_coord = hit.point;
+            }
+
         } else if (Input.GetMouseButton(0) && !fired)
         {
             current_launchforce += charge_speed * Time.deltaTime * 100f;
-            Debug.Log(current_launchforce);
         } else if (Input.GetMouseButtonUp(0) && !fired)
         {
             MouseClick();
@@ -46,6 +56,7 @@ public class Create_celestial : MonoBehaviour
     } 
     private void MouseClick()
     {
+        
         fired = true;
         Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         
@@ -53,8 +64,10 @@ public class Create_celestial : MonoBehaviour
         
         if(Physics.Raycast(camRay, out hit, 1000f, plane))
         {
+
             GameObject planet = Instantiate(celestial, hit.point, Quaternion.identity);
-            planet.GetComponent<Rigidbody>().velocity = new Vector3(current_launchforce, 0, 0);
+            planet.GetComponent<Rigidbody>().velocity = new Vector3( initial_coord.x - hit.point.x, initial_coord.y - hit.point.y, initial_coord.z - hit.point.z).normalized * current_launchforce;
+            planet.GetComponent<Rigidbody>().mass = current_launchforce;
         }
     }
 }
