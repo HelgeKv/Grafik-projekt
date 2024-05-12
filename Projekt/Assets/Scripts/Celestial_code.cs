@@ -36,6 +36,7 @@ public class Celestial_code : MonoBehaviour
             }
         }
     }
+    
 
     void InitialVelocity()
     {

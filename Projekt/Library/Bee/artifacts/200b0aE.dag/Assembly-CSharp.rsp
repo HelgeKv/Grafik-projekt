@@ -354,6 +354,7 @@
 "Assets/Scripts/Camera_follow.cs"
 "Assets/Scripts/Celestial_code.cs"
 "Assets/Scripts/Create_celestial.cs"
+"Assets/Scripts/Planet_destruction.cs"
 -langversion:9.0
 
 /deterministic
