@@ -8,6 +8,7 @@ public class Create_celestial : MonoBehaviour
     public GameObject celestial;
     private int plane;
     
+
     public float min_launchforce = 0f;
     public float max_launchforce = 1000f;
     public float charge_speed = 100f;
@@ -64,10 +65,10 @@ public class Create_celestial : MonoBehaviour
         
         if(Physics.Raycast(camRay, out hit, 1000f, plane))
         {
-
-            GameObject planet = Instantiate(celestial, hit.point, Quaternion.identity);
-            planet.GetComponent<Rigidbody>().velocity = new Vector3( initial_coord.x - hit.point.x, initial_coord.y - hit.point.y, initial_coord.z - hit.point.z).normalized * current_launchforce;
-            planet.GetComponent<Rigidbody>().mass = current_launchforce;
+            GameObject planet = Instantiate(celestial, initial_coord, Quaternion.identity);
+            planet.GetComponent<Rigidbody>().velocity = new Vector3( initial_coord.x - hit.point.x, 0f, initial_coord.z - hit.point.z) * 3f;
+            planet.GetComponent<Rigidbody>().mass = current_launchforce/100f;
+            planet.transform.localScale += new Vector3(current_launchforce/100f, current_launchforce/100f, current_launchforce/100f);
         }
     }
 }
