@@ -13,7 +13,6 @@ public class Planet_destruction : MonoBehaviour
     // Update is called once per frame
      private void OnCollisionEnter(Collision collision){
         gameObject.GetComponent<Rigidbody>().mass += collision.gameObject.GetComponent<Rigidbody>().mass;
-        Debug.Log(Convert.ToSingle(Math.Pow(collision.gameObject.transform.localScale.y, -3)));
 
         float comb_vol;
         float new_r;

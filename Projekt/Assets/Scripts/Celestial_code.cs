@@ -26,7 +26,7 @@ public class Celestial_code : MonoBehaviour
     void Gravity(){
         foreach(GameObject celestial in celestials){
             foreach(GameObject other_celestial in celestials){
-                if(celestial != other_celestial){
+                if(celestial != null && other_celestial != null && celestial != other_celestial) {
                     float m1 = celestial.GetComponent<Rigidbody>().mass;
                     float m2 = other_celestial.GetComponent<Rigidbody>().mass;
                     float r = Vector3.Distance(celestial.transform.position, other_celestial.transform.position);
