@@ -33,10 +33,11 @@ public class Planet_destruction : MonoBehaviour
         float rot_x = Convert.ToSingle(Math.Sin(angle));
         float rot_z = Convert.ToSingle(Math.Cos(angle));
 
-        Debug.Log(angle);
         
+    
         GameObject effect = Instantiate(explosion, collision.gameObject.transform.position, Quaternion.Euler(0, angle, 0));
         
+        gameObject.GetComponent<Rigidbody>().velocity += collision.gameObject.GetComponent<Rigidbody>().mass * collision.gameObject.GetComponent<Rigidbody>().velocity  / gameObject.GetComponent<Rigidbody>().mass;
           
         Destroy(collision.gameObject);
         
