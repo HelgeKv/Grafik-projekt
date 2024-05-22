@@ -4,19 +4,22 @@ using UnityEngine;
 
 public class Celestial_code : MonoBehaviour
 {   
-    readonly float G = 100f;
+    readonly float G = 10f;
     GameObject[] celestials;
+    float rotationSpeed = 0f;
     // Start is called before the first frame update
     void Start()
     {
+
         celestials = GameObject.FindGameObjectsWithTag("Celestials");
         InitialVelocity();
+        rotationSpeed = 12f/gameObject.transform.localScale.x;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        RotateCelectials();
     }
 
     private void FixedUpdate() {
@@ -24,20 +27,19 @@ public class Celestial_code : MonoBehaviour
     }
 
     void Gravity(){
-        foreach(GameObject celestial in celestials){
-            foreach(GameObject other_celestial in celestials){
-                if(celestial != null && other_celestial != null && celestial != other_celestial) {
-                    float m1 = celestial.GetComponent<Rigidbody>().mass;
-                    float m2 = other_celestial.GetComponent<Rigidbody>().mass;
-                    float r = Vector3.Distance(celestial.transform.position, other_celestial.transform.position);
 
-                    celestial.GetComponent<Rigidbody>().AddForce(G * ((m1 * m2) / (r * r)) * (other_celestial.transform.position  - celestial.transform.position).normalized);
-                }
-            }
-        }
-    }
+                foreach(GameObject other_celestial in celestials){
+
+                        if(other_celestial != null && gameObject != other_celestial) {
+                            float m1 = gameObject.GetComponent<Rigidbody>().mass;
+                            float m2 = other_celestial.GetComponent<Rigidbody>().mass;
+                            float r = Vector3.Distance(gameObject.transform.position, other_celestial.transform.position);
+
+                            gameObject.GetComponent<Rigidbody>().AddForce(G * ((m1 * m2) / (r * r)) * (other_celestial.transform.position  - gameObject.transform.position).normalized);
+                        }
+                }   
     
-
+    }
     void InitialVelocity()
     {
         foreach(GameObject celestial in celestials){
@@ -47,5 +49,14 @@ public class Celestial_code : MonoBehaviour
                 }
             }
         }
+    }
+
+    void RotateCelectials()
+    {
+       
+        gameObject.transform.Rotate(new Vector3(0, rotationSpeed, 0), Space.World);
+
+            
+        
     }
 }

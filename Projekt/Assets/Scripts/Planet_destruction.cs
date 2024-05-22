@@ -5,6 +5,12 @@ using System;
 public class Planet_destruction : MonoBehaviour
 {
     public GameObject explosion;
+
+    public GameObject explosion2;
+
+    public GameObject glow;
+
+    public GameObject lightSource;
     
     // Start is called before the first frame update
     void Start()
@@ -22,8 +28,8 @@ public class Planet_destruction : MonoBehaviour
         float new_r = Convert.ToSingle(Math.Pow(comb_vol / (Math.PI * 4/3f), 1/3f));
         
         gameObject.transform.localScale = new Vector3(new_r, new_r, new_r);
-
-
+        glow.transform.localScale = new Vector3(new_r/10f, new_r/10f, new_r/10f);
+        lightSource.GetComponent<Light>().range = new_r*10f;
         
     
         float dif_x = gameObject.transform.position.x - collision.gameObject.transform.position.x;
@@ -36,7 +42,11 @@ public class Planet_destruction : MonoBehaviour
         
     
         GameObject effect = Instantiate(explosion, collision.gameObject.transform.position, Quaternion.Euler(0, angle, 0));
-        
+        effect.transform.localScale = new Vector3(collision.gameObject.transform.localScale.x/12f, collision.gameObject.transform.localScale.y/12f, collision.gameObject.transform.localScale.z/12f);
+        GameObject effect2 = Instantiate(explosion2, collision.gameObject.transform.position, Quaternion.Euler(0, angle+180f, 0));
+        effect2.transform.localScale = new Vector3(collision.gameObject.transform.localScale.x/15f, collision.gameObject.transform.localScale.y/15f, collision.gameObject.transform.localScale.z/15f);
+
+
         gameObject.GetComponent<Rigidbody>().velocity += collision.gameObject.GetComponent<Rigidbody>().mass * collision.gameObject.GetComponent<Rigidbody>().velocity  / gameObject.GetComponent<Rigidbody>().mass;
           
         Destroy(collision.gameObject);
