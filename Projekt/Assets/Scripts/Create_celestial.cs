@@ -76,12 +76,19 @@ public class Create_celestial : MonoBehaviour
             
             if(Physics.Raycast(camRay, out hit, 1000f, plane))
             {
-                Vector3 length = (initial_coord - hit.point);
                 
-                Arrow_object.transform.localScale = new Vector3(1f, length.magnitude/10f, 1f);
+                // Spawns in the arrow and sets the scale and position
+                Vector3 length = (initial_coord - hit.point);
+                Arrow_object.transform.localScale = new Vector3(current_launchforce/5000f, length.magnitude/10f, current_launchforce/5000f);
                 Arrow_object.transform.position = initial_coord + (hit.point-initial_coord)/2;
-                Arrow_object.transform.Rotate(new Vector3(0, 0, 0), Space.World);
 
+                // Rotates the arrow to point in the right direction
+                float xDif = hit.point.x - initial_coord.x;
+                float zDif = initial_coord.z - hit.point.z;
+                float angle = Mathf.Atan2(zDif, xDif) * Mathf.Rad2Deg;
+
+                Quaternion point_dir = Quaternion.Euler(90f, angle, 90f);
+                Arrow_object.transform.rotation = point_dir;
             }
         } else if (Input.GetMouseButtonUp(0) && !fired)
         {
@@ -107,7 +114,7 @@ public class Create_celestial : MonoBehaviour
             GameObject planet = Instantiate(celestial, initial_coord, test);
             planet.GetComponent<Rigidbody>().velocity = new Vector3( initial_coord.x - hit.point.x, 0f, initial_coord.z - hit.point.z);
             planet.GetComponent<Rigidbody>().mass = current_launchforce/80f;
-            planet.transform.localScale += new Vector3(current_launchforce/400f, current_launchforce/400f, current_launchforce/400f);
+            planet.transform.localScale += new Vector3(current_launchforce/1000f, current_launchforce/1000f, current_launchforce/1000f);
             // planet.GetComponent<MeshRenderer>().material = mat ;
             //int temp;
             //System.Random RNG = new System.Random();
